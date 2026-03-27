@@ -38,9 +38,68 @@
 
     .card {
       background: #111;
-      padding: 15px;
-      border-radius: 12px;
+      padding: 20px;
+      border-radius: 16px;
       border: 1px solid #222;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      border-color: #555;
+    }
+
+    /* Airport panel */
+    .panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0a0a0a;
+      display: none;
+      flex-direction: column;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 16px;
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tab.active {
+      background: white;
+      color: black;
+    }
+
+    .chart-list button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 12px;
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 10px;
+      color: white;
+      text-align: left;
       cursor: pointer;
     }
 
@@ -66,22 +125,6 @@
       color: white;
       border: none;
     }
-
-    .list {
-      margin-top: 20px;
-    }
-
-    .list button {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-      background: #222;
-      border: none;
-      color: white;
-      border-radius: 8px;
-      text-align: left;
-    }
   </style>
 </head>
 <body>
@@ -92,52 +135,55 @@
 
 <div class="container">
   <h1>Select Airport</h1>
-
   <div class="grid" id="airportGrid"></div>
-
-  <div id="chartsSection" style="display:none;">
-    <h2 id="airportTitle"></h2>
-    <div class="list" id="chartsList"></div>
-  </div>
 </div>
 
+<!-- Airport Panel -->
+<div class="panel" id="panel">
+  <div class="panel-header">
+    <h2 id="airportTitle"></h2>
+    <button onclick="closePanel()">Close</button>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="chart-list" id="chartList"></div>
+</div>
+
+<!-- Viewer -->
 <div class="viewer" id="viewer">
   <button onclick="closeViewer()">Close</button>
   <iframe id="frame"></iframe>
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+
 const airports = {
   LPPT: {
     name: "Lisbon",
     charts: [
-      { type: "Airport", name: "Aerodrome Chart", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_01-1_en.pdf" },
-      { type: "Airport", name: "Ground Movement RWY02", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_03-1_en.pdf" },
-      { type: "Airport", name: "Ground Movement RWY20", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_03-3_en.pdf" },
+      { type: "GND", name: "Aerodrome Chart", url: "https://www.orimi.com/pdf-test.pdf" },
+      { type: "GND", name: "Taxi Chart", url: "https://www.orimi.com/pdf-test.pdf" },
 
-      { type: "SID", name: "RWY02 SIDs", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_08-1_en.pdf" },
-      { type: "SID", name: "RWY20 SIDs", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_08-3_en.pdf" },
-      { type: "SID", name: "RNAV SIDs", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_08-5_en.pdf" },
+      { type: "SID", name: "RWY02 SID", url: "https://www.orimi.com/pdf-test.pdf" },
+      { type: "SID", name: "RWY20 SID", url: "https://www.orimi.com/pdf-test.pdf" },
 
-      { type: "STAR", name: "RWY02 STARs", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_10-1_en.pdf" },
-      { type: "STAR", name: "RWY20 STARs", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_10-7_en.pdf" },
+      { type: "STAR", name: "RWY02 STAR", url: "https://www.orimi.com/pdf-test.pdf" },
 
-      { type: "Approach", name: "ILS RWY02", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_12-1_en.pdf" },
-      { type: "Approach", name: "ILS RWY20", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_12-5_en.pdf" },
-      { type: "Approach", name: "RNP RWY02", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_12-9_en.pdf" },
-      { type: "Approach", name: "RNP RWY20", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_12-11_en.pdf" }
+      { type: "APP", name: "ILS RWY02", url: "https://www.orimi.com/pdf-test.pdf" },
+      { type: "APP", name: "RNP RWY20", url: "https://www.orimi.com/pdf-test.pdf" }
     ]
   }
 };
 
 const airportGrid = document.getElementById("airportGrid");
-const chartsSection = document.getElementById("chartsSection");
-const chartsList = document.getElementById("chartsList");
+const panel = document.getElementById("panel");
 const airportTitle = document.getElementById("airportTitle");
+const tabs = document.getElementById("tabs");
+const chartList = document.getElementById("chartList");
 
 function renderAirports() {
-  airportGrid.innerHTML = "";
-
   Object.keys(airports).forEach(code => {
     const div = document.createElement("div");
     div.className = "card";
@@ -149,16 +195,42 @@ function renderAirports() {
 
 function openAirport(code) {
   const airport = airports[code];
-  chartsSection.style.display = "block";
+  panel.style.display = "flex";
   airportTitle.innerText = `${code} - ${airport.name}`;
-  chartsList.innerHTML = "";
 
-  airport.charts.forEach(chart => {
-    const btn = document.createElement("button");
-    btn.innerText = `${chart.type} - ${chart.name}`;
-    btn.onclick = () => openChart(chart.url);
-    chartsList.appendChild(btn);
+  const categories = [...new Set(airport.charts.map(c => c.type))];
+
+  tabs.innerHTML = "";
+  chartList.innerHTML = "";
+
+  categories.forEach((cat, index) => {
+    const tab = document.createElement("div");
+    tab.className = "tab" + (index === 0 ? " active" : "");
+    tab.innerText = cat;
+    tab.onclick = () => selectTab(cat);
+    tabs.appendChild(tab);
   });
+
+  selectTab(categories[0]);
+}
+
+function selectTab(type) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  event.target.classList.add("active");
+
+  const airportCode = airportTitle.innerText.split(" - ")[0];
+  const airport = airports[airportCode];
+
+  chartList.innerHTML = "";
+
+  airport.charts
+    .filter(c => c.type === type)
+    .forEach(chart => {
+      const btn = document.createElement("button");
+      btn.innerText = chart.name;
+      btn.onclick = () => openChart(chart.url);
+      chartList.appendChild(btn);
+    });
 }
 
 function openChart(url) {
@@ -166,12 +238,18 @@ function openChart(url) {
   document.getElementById("frame").src = url;
 }
 
-function closeViewer() {
+window.closeViewer = function() {
   document.getElementById("viewer").style.display = "none";
   document.getElementById("frame").src = "";
 }
 
+window.closePanel = function() {
+  panel.style.display = "none";
+}
+
 renderAirports();
+
+});
 </script>
 
 </body>
