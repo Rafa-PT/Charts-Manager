@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AeroCharts</title>
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -14,60 +13,20 @@
     body {
       font-family: 'Inter', sans-serif;
       background: #0a0a0a;
-      color: #ffffff;
+      color: white;
     }
 
     header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       padding: 16px 24px;
-      border-bottom: 1px solid #1f1f1f;
+      border-bottom: 1px solid #222;
     }
-
-    header h1 { font-size: 20px; }
-
-    nav a {
-      margin-left: 20px;
-      color: #aaa;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    nav a:hover { color: white; }
 
     .container {
       max-width: 1100px;
       margin: auto;
       padding: 40px 20px;
-    }
-
-    .hero h2 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      color: #888;
-      margin-bottom: 20px;
-    }
-
-    .search-box {
-      display: flex;
-      align-items: center;
-      background: #111;
-      border: 1px solid #222;
-      padding: 12px;
-      border-radius: 12px;
-      max-width: 400px;
-    }
-
-    .search-box input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: white;
-      width: 100%;
     }
 
     .grid {
@@ -79,117 +38,142 @@
 
     .card {
       background: #111;
+      padding: 15px;
+      border-radius: 12px;
       border: 1px solid #222;
-      border-radius: 16px;
-      padding: 16px;
-      transition: 0.2s;
+      cursor: pointer;
     }
 
-    .card:hover {
-      border-color: #555;
+    .viewer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      display: none;
+      flex-direction: column;
     }
 
-    .preview {
-      height: 120px;
-      background: #1a1a1a;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #666;
+    .viewer iframe {
+      flex: 1;
+      border: none;
+    }
+
+    .viewer button {
+      padding: 10px;
+      background: red;
+      color: white;
+      border: none;
+    }
+
+    .list {
+      margin-top: 20px;
+    }
+
+    .list button {
+      display: block;
+      width: 100%;
       margin-bottom: 10px;
-      font-size: 12px;
-    }
-
-    .card h4 { margin-bottom: 5px; }
-
-    .card p {
-      font-size: 13px;
-      color: #888;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      border-top: 1px solid #1f1f1f;
-      color: #666;
-      font-size: 13px;
-      margin-top: 40px;
+      padding: 10px;
+      background: #222;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      text-align: left;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>AeroCharts</h1>
-    <nav>
-      <a href="#">Browse</a>
-      <a href="#">Favorites</a>
-      <a href="#">About</a>
-    </nav>
-  </header>
+<header>
+  <h2>AeroCharts</h2>
+</header>
 
-  <div class="container">
-    <section class="hero">
-      <h2>Browse Aviation Charts</h2>
-      <p>Search airport procedures, SIDs, STARs, and approach charts.</p>
+<div class="container">
+  <h1>Select Airport</h1>
 
-      <div class="search-box">
-        <input id="searchInput" type="text" placeholder="Search ICAO (e.g. LPPT, EGLL)" />
-      </div>
-    </section>
+  <div class="grid" id="airportGrid"></div>
 
-    <section>
-      <h3 style="margin-top:30px;">Popular Charts</h3>
-
-      <div class="grid" id="chartGrid">
-        <!-- Cards inserted by JS -->
-      </div>
-    </section>
+  <div id="chartsSection" style="display:none;">
+    <h2 id="airportTitle"></h2>
+    <div class="list" id="chartsList"></div>
   </div>
+</div>
 
-  <footer>
-    © 2026 AeroCharts — Aviation data explorer
-  </footer>
+<div class="viewer" id="viewer">
+  <button onclick="closeViewer()">Close</button>
+  <iframe id="frame"></iframe>
+</div>
 
-  <script>
-    const charts = [
-      { code: "LPPT", type: "Approach" },
-      { code: "EGLL", type: "SID" },
-      { code: "KJFK", type: "STAR" },
-      { code: "LFPG", type: "Approach" },
-      { code: "EDDF", type: "Taxi" },
-      { code: "LEMD", type: "SID" }
-    ];
+<script>
+const airports = {
+  LPPT: {
+    name: "Lisbon",
+    charts: [
+      { type: "Airport", name: "Aerodrome Chart", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_01-1_en.pdf" },
+      { type: "Airport", name: "Ground Movement RWY02", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_03-1_en.pdf" },
+      { type: "Airport", name: "Ground Movement RWY20", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_03-3_en.pdf" },
 
-    const grid = document.getElementById("chartGrid");
-    const searchInput = document.getElementById("searchInput");
+      { type: "SID", name: "RWY02 SIDs", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_08-1_en.pdf" },
+      { type: "SID", name: "RWY20 SIDs", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_08-3_en.pdf" },
+      { type: "SID", name: "RNAV SIDs", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_08-5_en.pdf" },
 
-    function renderCharts(filter = "") {
-      grid.innerHTML = "";
+      { type: "STAR", name: "RWY02 STARs", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_10-1_en.pdf" },
+      { type: "STAR", name: "RWY20 STARs", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_10-7_en.pdf" },
 
-      charts
-        .filter(c => c.code.toLowerCase().includes(filter.toLowerCase()))
-        .forEach(chart => {
-          const div = document.createElement("div");
-          div.className = "card";
+      { type: "Approach", name: "ILS RWY02", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_12-1_en.pdf" },
+      { type: "Approach", name: "ILS RWY20", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_12-5_en.pdf" },
+      { type: "Approach", name: "RNP RWY02", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_12-9_en.pdf" },
+      { type: "Approach", name: "RNP RWY20", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_12-11_en.pdf" }
+    ]
+  }
+};
 
-          div.innerHTML = `
-            <div class="preview">Chart Preview</div>
-            <h4>${chart.code}</h4>
-            <p>${chart.type}</p>
-          `;
+const airportGrid = document.getElementById("airportGrid");
+const chartsSection = document.getElementById("chartsSection");
+const chartsList = document.getElementById("chartsList");
+const airportTitle = document.getElementById("airportTitle");
 
-          grid.appendChild(div);
-        });
-    }
+function renderAirports() {
+  airportGrid.innerHTML = "";
 
-    searchInput.addEventListener("input", (e) => {
-      renderCharts(e.target.value);
-    });
+  Object.keys(airports).forEach(code => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `<h3>${code}</h3><p>${airports[code].name}</p>`;
+    div.onclick = () => openAirport(code);
+    airportGrid.appendChild(div);
+  });
+}
 
-    renderCharts();
-  </script>
+function openAirport(code) {
+  const airport = airports[code];
+  chartsSection.style.display = "block";
+  airportTitle.innerText = `${code} - ${airport.name}`;
+  chartsList.innerHTML = "";
+
+  airport.charts.forEach(chart => {
+    const btn = document.createElement("button");
+    btn.innerText = `${chart.type} - ${chart.name}`;
+    btn.onclick = () => openChart(chart.url);
+    chartsList.appendChild(btn);
+  });
+}
+
+function openChart(url) {
+  document.getElementById("viewer").style.display = "flex";
+  document.getElementById("frame").src = url;
+}
+
+function closeViewer() {
+  document.getElementById("viewer").style.display = "none";
+  document.getElementById("frame").src = "";
+}
+
+renderAirports();
+</script>
 
 </body>
 </html>
+
