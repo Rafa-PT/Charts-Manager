@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AeroCharts</title>
 
-  <!-- Premium font combo -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
   <style>
@@ -111,22 +111,27 @@
     .panel-content {
       display: grid;
       grid-template-columns: 220px 1fr;
-      height: 100%;
+      height: calc(100% - 70px);
     }
 
     /* SIDEBAR */
     .sidebar {
       border-right: 1px solid rgba(255,255,255,0.05);
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .tab {
-      padding: 12px 14px;
-      border-radius: 10px;
-      margin-bottom: 8px;
+      padding: 14px 18px;
+      border-radius: 12px;
       cursor: pointer;
       color: #94a3b8;
-      transition: 0.2s;
+      font-weight: 500;
+      font-size: 15px;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.02);
     }
 
     .tab:hover {
@@ -137,36 +142,43 @@
     .tab.active {
       background: #3b82f6;
       color: white;
+      box-shadow: 0 4px 15px rgba(59,130,246,0.3);
     }
 
     /* CONTENT */
     .charts {
       padding: 25px;
       overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
     }
 
     .chart-card {
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 12px;
+      border-radius: 18px;
+      padding: 20px;
       cursor: pointer;
-      transition: 0.2s;
+      transition: all 0.25s;
+      display: flex;
+      flex-direction: column;
     }
 
     .chart-card:hover {
       border-color: #3b82f6;
-      transform: scale(1.01);
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(59,130,246,0.2);
     }
 
     .chart-title {
-      font-size: 15px;
-      margin-bottom: 4px;
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 6px;
     }
 
     .chart-meta {
-      font-size: 12px;
+      font-size: 13px;
       color: #64748b;
       font-family: 'JetBrains Mono', monospace;
     }
@@ -192,6 +204,7 @@
       color: white;
       cursor: pointer;
     }
+
   </style>
 </head>
 <body>
@@ -321,4 +334,3 @@ renderAirports();
 
 </body>
 </html>
-
