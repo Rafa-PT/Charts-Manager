@@ -1,11 +1,7 @@
 /* RESET */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* BASE (ATC STYLE) */
+/* BASE */
 body {
   font-family: 'Inter', sans-serif;
   background: #0b0f12;
@@ -33,13 +29,9 @@ header h2 {
   padding: 40px 20px;
 }
 
-h1 {
-  font-weight: 500;
-  margin-bottom: 20px;
-  font-size: 22px;
-}
+h1 { font-weight: 500; margin-bottom: 20px; font-size: 22px; }
 
-/* SEARCH (FIXED) */
+/* SEARCH */
 #search {
   width: 100%;
   padding: 12px 14px;
@@ -51,9 +43,7 @@ h1 {
   font-size: 14px;
 }
 
-#search::placeholder {
-  color: #6b7280;
-}
+#search::placeholder { color: #6b7280; }
 
 #search:focus {
   outline: none;
@@ -83,15 +73,8 @@ h1 {
   background: #141a20;
 }
 
-.card h3 {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.card p {
-  color: #6b7280;
-  font-size: 13px;
-}
+.card h3 { font-size: 16px; font-weight: 500; }
+.card p { color: #6b7280; font-size: 13px; }
 
 /* PANEL */
 .panel {
@@ -104,9 +87,7 @@ h1 {
   transition: transform 0.25s ease;
 }
 
-.panel.open {
-  transform: translateX(0);
-}
+.panel.open { transform: translateX(0); }
 
 /* PANEL HEADER */
 .panel-header {
@@ -117,10 +98,7 @@ h1 {
   border-bottom: 1px solid #1f2933;
 }
 
-.panel-header h2 {
-  font-weight: 500;
-  font-size: 16px;
-}
+.panel-header h2 { font-weight: 500; font-size: 16px; }
 
 .panel-header button {
   background: #1a222b;
@@ -178,29 +156,19 @@ h1 {
   cursor: pointer;
 }
 
-.tab:hover {
-  background: #141a20;
-  border-color: #2a323c;
-}
+.tab:hover { background: #141a20; border-color: #2a323c; }
+.tab.active { background: #1a222b; color: #4ade80; border-color: #4ade80; }
 
-.tab.active {
-  background: #1a222b;
-  color: #4ade80;
-  border-color: #4ade80;
-}
-
-/* CHART GRID / RADAR STYLE */
+/* CHARTS */
 .charts {
-  position: relative; /* for overlay positioning */
   padding: 20px;
   overflow-y: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 12px;
-  background-color: #0b0f12;
 }
 
-/* Radar overlay grid (behind map and charts) */
+/* Radar map container */
 .radar-map-container {
   position: relative;
   width: 100%;
@@ -211,11 +179,9 @@ h1 {
 .radar-map-container iframe {
   width: 100%;
   height: 100%;
-  display: block;
   border: none;
 }
 
-/* Faint radar grid on top of map */
 .radar-overlay {
   position: absolute;
   inset: 0;
@@ -228,27 +194,18 @@ h1 {
   z-index: 1;
 }
 
-/* Overlay container for charts on top of map */
+/* Sample chart overlay */
 #chartOverlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  background: url('https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_01-1_en.pdf') center center no-repeat;
+  background-size: contain;
+  opacity: 0.3;
   z-index: 2;
 }
 
-/* Overlayed chart image styling */
-.chart-card-overlay {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  max-width: 80%;
-  max-height: 80%;
-  opacity: 0.8;
-  pointer-events: auto;
-  border: 1px solid rgba(74, 222, 128, 0.3);
-  border-radius: 4px;
-}
-
-/* Chart cards below map */
+/* CHART CARD */
 .chart-card {
   background: #11161b;
   border: 1px solid #2a323c;
@@ -256,32 +213,12 @@ h1 {
   padding: 14px;
   cursor: pointer;
   transition: 0.15s ease;
-  position: relative;
-  z-index: 3; /* above map but below overlay */
 }
 
-.chart-card:hover {
-  border-color: #4ade80;
-  background: #141a20;
-}
-
-.chart-title {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.chart-meta {
-  font-size: 12px;
-  color: #6b7280;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* PRIORITY */
-.chart-card.priority {
-  border-color: #4ade80;
-  background: rgba(74, 222, 128, 0.05);
-}
+.chart-card:hover { border-color: #4ade80; background: #141a20; }
+.chart-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.chart-meta { font-size: 12px; color: #6b7280; font-family: 'JetBrains Mono', monospace; }
+.chart-card.priority { border-color: #4ade80; background: rgba(74, 222, 128, 0.05); }
 
 /* VIEWER */
 .viewer {
@@ -292,12 +229,7 @@ h1 {
   flex-direction: column;
 }
 
-.viewer iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
+.viewer iframe { width: 100%; height: 100%; border: none; }
 .viewer button {
   padding: 10px;
   background: #dc2626;
