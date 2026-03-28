@@ -8,6 +8,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
+  <!-- External CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -38,102 +39,9 @@
   <iframe id="frame"></iframe>
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-const airports = {
-  LPPT: {
-    name: "Lisboa - Aeroporto Humberto Delgado / Portela",
-    charts: [
-      { type: "GND", name: "Aerodrome Chart", url: "https://ais.nav.pt/wp-content/uploads/AIS_Files/eAIP_Current/eAIP/graphics/eAIP/LP_AD_2_LPPT_01-1_en.pdf", isHTML: false },
-      { type: "GND", name: "Taxi Chart", url: "https://www.orimi.com/pdf-test.pdf" },
-      { type: "SID", name: "RWY02 SID", url: "https://www.orimi.com/pdf-test.pdf" },
-      { type: "SID", name: "RWY20 SID", url: "https://www.orimi.com/pdf-test.pdf" },
-      { type: "STAR", name: "RWY02 STAR", url: "https://www.orimi.com/pdf-test.pdf" },
-      { type: "APP", name: "ILS RWY02", url: "https://www.orimi.com/pdf-test.pdf" },
-      { type: "APP", name: "RNP RWY20", url: "https://www.orimi.com/pdf-test.pdf" }
-    ]
-  }
-};
-
-const airportGrid = document.getElementById("airportGrid");
-const panel = document.getElementById("panel");
-const airportTitle = document.getElementById("airportTitle");
-const tabs = document.getElementById("tabs");
-const chartList = document.getElementById("chartList");
-
-function renderAirports() {
-  Object.keys(airports).forEach(code => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `<h3>${code}</h3><p>${airports[code].name}</p>`;
-    div.onclick = () => openAirport(code);
-    airportGrid.appendChild(div);
-  });
-}
-
-function openAirport(code) {
-  const airport = airports[code];
-  panel.style.display = "flex";
-  airportTitle.innerText = `${code} — ${airport.name}`;
-
-  const categories = [...new Set(airport.charts.map(c => c.type))];
-
-  tabs.innerHTML = "";
-  chartList.innerHTML = "";
-
-  categories.forEach((cat, index) => {
-    const tab = document.createElement("div");
-    tab.className = "tab" + (index === 0 ? " active" : "");
-    tab.innerText = cat;
-    tab.onclick = () => selectTab(cat, tab);
-    tabs.appendChild(tab);
-  });
-
-  selectTab(categories[0], tabs.children[0]);
-}
-
-function selectTab(type, el) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  if (el) el.classList.add("active");
-
-  const airportCode = airportTitle.innerText.split(" — ")[0];
-  const airport = airports[airportCode];
-
-  chartList.innerHTML = "";
-
-  airport.charts
-    .filter(c => c.type === type)
-    .forEach(chart => {
-      const div = document.createElement("div");
-      div.className = "chart-card";
-      div.innerHTML = `
-        <div class="chart-title">${chart.name}</div>
-        <div class="chart-meta">${type} • PDF</div>
-      `;
-      div.onclick = () => openChart(chart.url);
-      chartList.appendChild(div);
-    });
-}
-
-function openChart(url) {
-  document.getElementById("viewer").style.display = "flex";
-  document.getElementById("frame").src = url;
-}
-
-window.closeViewer = function() {
-  document.getElementById("viewer").style.display = "none";
-  document.getElementById("frame").src = "";
-}
-
-window.closePanel = function() {
-  panel.style.display = "none";
-}
-
-renderAirports();
-
-});
-</script>
+<!-- External JS -->
+<script src="script.js"></script>
 
 </body>
 </html>
+
