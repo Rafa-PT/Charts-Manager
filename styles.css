@@ -5,188 +5,239 @@
   padding: 0;
 }
 
-/* BASE */
+/* BASE (ATC STYLE) */
 body {
   font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color: #e5e7eb;
+  background: #0b0f12;
+  color: #d1d5db;
 }
 
 /* HEADER */
 header {
-  padding: 20px 30px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
+  padding: 16px 24px;
+  background: #0f1418;
+  border-bottom: 1px solid #1f2933;
 }
 
 header h2 {
+  color: #9ca3af;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 1px;
-  color: #93c5fd;
 }
 
-/* MAIN CONTAINER */
+/* MAIN */
 .container {
   max-width: 1100px;
   margin: auto;
-  padding: 50px 20px;
+  padding: 40px 20px;
 }
 
 h1 {
   font-weight: 500;
   margin-bottom: 20px;
+  font-size: 22px;
 }
 
-/* AIRPORT GRID */
+/* SEARCH (FIXED) */
+#search {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+
+  background: #11161b;
+  border: 1px solid #2a323c;
+  border-radius: 6px;
+
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+#search::placeholder {
+  color: #6b7280;
+}
+
+#search:focus {
+  outline: none;
+  border-color: #4ade80;
+  box-shadow: 0 0 0 1px #4ade80;
+}
+
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+  gap: 16px;
 }
 
+/* AIRPORT CARD */
 .card {
-  background: rgba(255,255,255,0.03);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 24px;
-  border-radius: 20px;
+  background: #11161b;
+  border: 1px solid #2a323c;
+  padding: 18px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: 0.15s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  border-color: #3b82f6;
-  box-shadow: 0 10px 30px rgba(59,130,246,0.2);
+  border-color: #4ade80;
+  background: #141a20;
 }
 
 .card h3 {
-  font-size: 20px;
-  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .card p {
-  color: #94a3b8;
-  font-size: 14px;
+  color: #6b7280;
+  font-size: 13px;
 }
 
 /* PANEL */
 .panel {
   position: fixed;
   inset: 0;
-  background: #020617;
+  background: #0b0f12;
   display: none;
   flex-direction: column;
-  animation: fadeIn 0.25s ease;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.panel.open {
+  transform: translateX(0);
 }
 
+/* PANEL HEADER */
 .panel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 30px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 18px 24px;
+  border-bottom: 1px solid #1f2933;
 }
 
 .panel-header h2 {
   font-weight: 500;
+  font-size: 16px;
 }
 
 .panel-header button {
-  background: rgba(255,255,255,0.05);
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  color: #cbd5f5;
+  background: #1a222b;
+  border: 1px solid #2a323c;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #9ca3af;
   cursor: pointer;
+}
+
+.panel-header button:hover {
+  border-color: #4ade80;
+  color: white;
+}
+
+/* RUNWAY BAR */
+.runway-bar {
+  padding: 10px 20px;
+  background: #0f1418;
+  border-bottom: 1px solid #1f2933;
+  font-size: 13px;
+}
+
+.runway-bar select {
+  margin-left: 10px;
+  padding: 6px 8px;
+  background: #11161b;
+  color: #e5e7eb;
+  border: 1px solid #2a323c;
+  border-radius: 4px;
 }
 
 /* PANEL LAYOUT */
 .panel-content {
   display: grid;
-  grid-template-columns: 220px 1fr;
-  height: calc(100% - 70px);
+  grid-template-columns: 200px 1fr;
+  height: 100%;
 }
 
 /* SIDEBAR */
 .sidebar {
-  border-right: 1px solid rgba(255,255,255,0.05);
-  padding: 20px;
+  border-right: 1px solid #1f2933;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .tab {
-  padding: 14px 18px;
-  border-radius: 12px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #9ca3af;
+  border: 1px solid transparent;
   cursor: pointer;
-  color: #94a3b8;
-  font-weight: 500;
-  font-size: 15px;
-  transition: all 0.2s;
-  background: rgba(255,255,255,0.02);
 }
 
 .tab:hover {
-  background: rgba(255,255,255,0.05);
-  color: white;
+  background: #141a20;
+  border-color: #2a323c;
 }
 
 .tab.active {
-  background: #3b82f6;
-  color: white;
-  box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+  background: #1a222b;
+  color: #4ade80;
+  border-color: #4ade80;
 }
 
 /* CHART GRID */
 .charts {
-  padding: 25px;
+  padding: 20px;
   overflow-y: auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
 }
 
+/* CHART CARD */
 .chart-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 18px;
-  padding: 20px;
+  background: #11161b;
+  border: 1px solid #2a323c;
+  border-radius: 6px;
+  padding: 14px;
   cursor: pointer;
-  transition: all 0.25s;
-  display: flex;
-  flex-direction: column;
+  transition: 0.15s ease;
 }
 
 .chart-card:hover {
-  border-color: #3b82f6;
-  transform: scale(1.02);
-  box-shadow: 0 8px 20px rgba(59,130,246,0.2);
+  border-color: #4ade80;
+  background: #141a20;
 }
 
 .chart-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .chart-meta {
-  font-size: 13px;
-  color: #64748b;
+  font-size: 12px;
+  color: #6b7280;
   font-family: 'JetBrains Mono', monospace;
+}
+
+/* PRIORITY */
+.chart-card.priority {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.05);
 }
 
 /* VIEWER */
 .viewer {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.95);
+  background: #000;
   display: none;
   flex-direction: column;
 }
@@ -198,64 +249,9 @@ h1 {
 }
 
 .viewer button {
-  padding: 12px;
-  background: #ef4444;
+  padding: 10px;
+  background: #dc2626;
   border: none;
   color: white;
   cursor: pointer;
-}
-
-.panel {
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-}
-
-.panel.open {
-  transform: translateX(0);
-}
-
-.panel.closing {
-  transform: translateX(100%);
-
-}
-#search {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  background: rgba(255,255,255,0.05);
-  color: white;
-}
-
-/* RUNWAY BAR */
-.runway-bar {
-  padding: 10px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.runway-bar select {
-  margin-left: 10px;
-  padding: 6px;
-  border-radius: 6px;
-  background: #020617;
-  color: white;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* PRIORITY (ATC) */
-.chart-card.priority {
-  border-color: #22c55e;
-  box-shadow: 0 0 10px rgba(34,197,94,0.4);
-}
-
-/* PANEL ANIMATION */
-.panel {
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-}
-
-.panel.open {
-  transform: translateX(0);
 }
