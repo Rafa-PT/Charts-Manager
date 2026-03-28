@@ -112,3 +112,26 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape") closeViewer();});
 
 renderAirports();
 });
+
+const svgContainer = document.getElementById("svgContainer");
+const airportSVG = document.getElementById("airportSVG");
+
+let scale = 1;
+const minScale = 1;   // cannot zoom out beyond original size
+const maxScale = 3;   // max zoom in
+const scaleStep = 0.1;
+
+svgContainer.addEventListener("wheel", (e) => {
+  e.preventDefault();
+
+  if (e.deltaY < 0) {
+    // Zoom in
+    scale = Math.min(scale + scaleStep, maxScale);
+  } else {
+    // Zoom out
+    scale = Math.max(scale - scaleStep, minScale);
+  }
+
+  airportSVG.style.transform = `scale(${scale})`;
+  airportSVG.style.transformOrigin = "center center";
+});
