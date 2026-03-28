@@ -41,7 +41,22 @@
 
   <div class="panel-content">
     <div class="sidebar" id="tabs"></div>
-    <div class="charts" id="chartList"></div>
+    <div class="charts" id="chartList">
+      <!-- Radar map overlay -->
+      <div class="radar-map-container">
+        <iframe
+          width="100%"
+          height="500"
+          frameborder="0"
+          scrolling="no"
+          marginheight="0"
+          marginwidth="0"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-9.265%2C38.679%2C-9.110%2C38.747&amp;layer=mapnik">
+        </iframe>
+        <div class="radar-overlay"></div>
+      </div>
+      <!-- Chart cards will appear below the map -->
+    </div>
   </div>
 </div>
 
