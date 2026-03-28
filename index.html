@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AeroCharts ATC</title>
+  <title>AeroCharts ATC - LPPT</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
 <div class="container">
   <h1>Select Airport</h1>
 
-  <!-- SEARCH -->
+  <!-- Search -->
   <input id="search" placeholder="Search procedure (e.g. ILS 02, LISBOA)">
 
   <div class="grid" id="airportGrid"></div>
@@ -33,7 +33,6 @@
     <button onclick="closePanel()">Close</button>
   </div>
 
-  <!-- RUNWAY SELECT -->
   <div class="runway-bar">
     Active RWY:
     <select id="runwaySelect"></select>
@@ -42,20 +41,20 @@
   <div class="panel-content">
     <div class="sidebar" id="tabs"></div>
     <div class="charts" id="chartList">
-      <!-- Radar map overlay -->
       <div class="radar-map-container">
+        <!-- OpenStreetMap -->
         <iframe
-          width="100%"
-          height="500"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-9.265%2C38.679%2C-9.110%2C38.747&amp;layer=mapnik"
           frameborder="0"
-          scrolling="no"
-          marginheight="0"
-          marginwidth="0"
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-9.265%2C38.679%2C-9.110%2C38.747&amp;layer=mapnik">
+          scrolling="no">
         </iframe>
+
+        <!-- Radar grid -->
         <div class="radar-overlay"></div>
+
+        <!-- Ground chart overlay -->
+        <div id="chartOverlay"></div>
       </div>
-      <!-- Chart cards will appear below the map -->
     </div>
   </div>
 </div>
