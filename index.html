@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AeroCharts</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroCharts ATC</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
-  <!-- External CSS -->
+  <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header>
-  <h2>AeroCharts</h2>
+  <h2>AeroCharts ATC</h2>
 </header>
 
 <div class="container">
   <h1>Select Airport</h1>
+
+  <!-- SEARCH -->
+  <input id="search" placeholder="Search procedure (e.g. ILS 02, LISBOA)">
+
   <div class="grid" id="airportGrid"></div>
 </div>
 
+<!-- PANEL -->
 <div class="panel" id="panel">
   <div class="panel-header">
     <h2 id="airportTitle"></h2>
     <button onclick="closePanel()">Close</button>
+  </div>
+
+  <!-- RUNWAY SELECT -->
+  <div class="runway-bar">
+    Active RWY:
+    <select id="runwaySelect"></select>
   </div>
 
   <div class="panel-content">
@@ -34,12 +45,13 @@
   </div>
 </div>
 
+<!-- VIEWER -->
 <div class="viewer" id="viewer">
   <button onclick="closeViewer()">Close</button>
   <iframe id="frame"></iframe>
 </div>
 
-<!-- External JS -->
+<!-- JS -->
 <script src="script.js"></script>
 
 </body>
