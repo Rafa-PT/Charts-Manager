@@ -135,3 +135,25 @@ svgContainer.addEventListener("wheel", (e) => {
   airportSVG.style.transform = `scale(${scale})`;
   airportSVG.style.transformOrigin = "center center";
 });
+
+/* SVG ZOOM + PAN (ATC STYLE) */
+
+const svgContainer = document.getElementById("svgContainer");
+const airportSVG = document.getElementById("airportSVG");
+
+let scale = 1;
+let posX = 0;
+let posY = 0;
+
+const minScale = 1;   // prevents seeing borders
+const maxScale = 3;
+const scaleStep = 0.1;
+
+let isPanning = false;
+let startX, startY;
+
+/* APPLY TRANSFORM */
+function updateTransform() {
+  airportSVG.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+  airportSVG.style.transformOrigin = "center center";
+}
