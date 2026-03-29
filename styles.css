@@ -279,3 +279,11 @@ h1 {
   transition: transform 0.2s ease; /* smooth zooming */
   user-select: none;
 }
+
+.svg-container {
+  cursor: grab;
+}
+
+.svg-container:active {
+  cursor: grabbing;
+}
